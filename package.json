@@ -4,14 +4,15 @@
   "description": "Example Frida agent written in TypeScript",
   "private": true,
   "main": "agent/index.ts",
+  "type": "module",
   "scripts": {
-    "prepare": "npm run build",
-    "build": "frida-compile agent/index.ts -o _agent.js -c",
-    "watch": "frida-compile agent/index.ts -o _agent.js -w"
+    "build": "esbuild agent/index.ts --minify --bundle --platform=node --outfile=_agent.js --sourcemap=inline",
+    "inject": "esbuild agent/index.ts --minify --bundle --platform=node --outfile=_agent.js --sourcemap=inline && frida -U -n Calculator -l _agent.js"
   },
   "devDependencies": {
-    "@types/frida-gum": "^18.5.1",
-    "@types/node": "^18.19.3",
-    "frida-compile": "^16.4.1"
+    "@types/frida-gum": "^19.0.0",
+    "frida-java-bridge": "^7.0.1",
+    "@types/node": "^22.15.29",
+    "esbuild": "^0.25.5"
   }
 }
